@@ -1,15 +1,15 @@
-[tool.poetry]
+[project]
 name = "crewai_sample"
 version = "0.1.0"
 description = "crewai-sample using crewAI"
-authors = ["Satish <satish@highonswift.com>"]
-python = ">=3.10,<3.14"
+authors = [{ name = "Satish", email = "satish@example.com" }]
+requires-python = ">=3.10,<=3.13"
+dependencies = [
+    "crewai[tools]>=0.86.0,<1.0.0",
+    "exa_py>=1.7.0"
+]
 
-[tool.poetry.dependencies]
-crewai = {extras = ["tools"], version = ">=0.86.0,<1.0.0"}
-exa_py = ">=1.7.0"
-
-[tool.poetry.scripts]
+[project.scripts]
 crewai_sample = "crewai_sample.main:run"
 run_crew = "crewai_sample.main:run"
 train = "crewai_sample.main:train"
@@ -17,5 +17,5 @@ replay = "crewai_sample.main:replay"
 test = "crewai_sample.main:test"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
