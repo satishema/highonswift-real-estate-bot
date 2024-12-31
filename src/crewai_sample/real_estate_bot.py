@@ -115,11 +115,11 @@ if user_input := st.chat_input("Type your question here..."):
     )
     
     # Fetch the result
-    # try:
-    #     result = crew.kickoff(inputs={"user_question": user_input})
-    #     st.session_state.messages.append({"role": "assistant", "content": result})
-    #     st.chat_message("assistant").write(result)
-    # except Exception as e:
-    #     error_message = f"An error occurred: {str(e)}"
-    #     st.session_state.messages.append({"role": "assistant", "content": error_message})
-    #     st.chat_message("assistant").write(error_message)
+    try:
+        result = crew.kickoff(inputs={"user_question": user_input})
+        st.session_state.messages.append({"role": "assistant", "content": result})
+        st.chat_message("assistant").write(result)
+    except Exception as e:
+        error_message = f"An error occurred: {str(e)}"
+        st.session_state.messages.append({"role": "assistant", "content": error_message})
+        st.chat_message("assistant").write(error_message)
