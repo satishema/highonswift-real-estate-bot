@@ -1,0 +1,39 @@
+Selection of Office Bearers:
+The following individuals were shortlisted and selected after detailed deliberations:
+S.No	Name	Batch	Branch	Position
+1	P. Saravanaraja	1988	Civil	President
+2	M. Ramesh	1983	Chemical	Vice President
+3	AshokRaj Vadivelu	1993	Mechanical	Secretary
+4	Muthukumar Ramalingam	1995	Chemical	Joint Secretary (Website/Digital)
+5	Priyadarshini Anita Prakash	1989	EEE	Joint Secretary (Cultural)
+6	Satheesh S	1985	Civil	Editor
+7	Margabandu P	1981	Chemical	Treasurer
+8	Ganesalingam Jayaraman	1993	EEE	Joint Treasurer
+Selection of Executive Committee (EC) Members:
+The following members were selected as EC Members:
+S.No	Name	Batch	Branch	Position
+1	Suresh P N	1985	Chemical	EC Member
+2	Pandiarajan B	1983	Mechanical	EC Member
+3	Panneerselvam B	1983	Chemical	EC Member
+4	B. Murugavel	1983	Mechanical	EC Member
+5	N. Arimananathan	1992	ECE	EC Member
+6	Sudharsan Srinivasan	1996	Mechanical	EC Member
+7	G. Soundara Pandian	1994	Mechanical	EC Member
+8	Kavitha	1999	EEE	EC Member
+9	Thaliravan G	2005	Mech	EC Member
+10	V. Raja	2009	Chemical	EC Member
+11	Karthik Swaminathan	1999	Mechanical	EC Member
+12	Sakthivel M.A.	1998	Chemical	EC Member
+13	Sampathkumar Rathinavel	1997	Mechanical	EC Member
+14	Ragul T	2016	Mechanical	EC Member
+15	G. N. Sivaramakrishna	1985	Mechanical	EC Member
+16	R. S. Baabu	1987	Civil	EC Member
+17	S. Hari Babu	1990	ECE	EC Member
+18	Karnan Ramamurthy	1996	Civil	EC Member
+Editorial Committee:
+The following members were included in the Editorial Committee:
+S.No	Name	Batch	Branch	Position
+1	Kaliya Perumal S	1983	Civil	Editorial Sub-Committee Member
+2	T. N. Krishnamoorthi	1984-4	Civil	Editorial Sub-Committee Member
+3	Sathya Prabhu P	1990	Mechanical	Editorial Sub-Committee Member
+

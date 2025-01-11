@@ -2,13 +2,15 @@
 name = "crewai_sample"
 version = "0.1.0"
 description = "crewai-sample using crewAI"
-authors = [{ name = "Satish", email = "satish@example.com" }]
+authors = [
+    { name = "Satish", email = "satish@example.com" },
+]
 requires-python = ">=3.10,<=3.13"
 dependencies = [
     "crewai[tools]>=0.86.0,<1.0.0",
     "exa_py>=1.7.0",
     "streamlit>=1.41.1",
-    "pysqlite3-binary"
+    "google.generativeai",
 ]
 
 [project.scripts]
@@ -19,5 +21,7 @@ replay = "crewai_sample.main:replay"
 test = "crewai_sample.main:test"
 
 [build-system]
-requires = ["hatchling"]
+requires = [
+    "hatchling",
+]
 build-backend = "hatchling.build"

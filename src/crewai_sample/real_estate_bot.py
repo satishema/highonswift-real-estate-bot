@@ -1,19 +1,13 @@
-import pysqlite3
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-
+import os
 import streamlit as st
 from crewai import Agent, Task, Crew, Process, LLM
 from crewai.knowledge.source.base_knowledge_source import BaseKnowledgeSource
+from crewai.knowledge.storage.knowledge_storage import KnowledgeStorage
+import chromadb.utils.embedding_functions as embedding_functions
 import requests
 from typing import Dict, Any
 from pydantic import Field
-from dotenv import load_dotenv
 import uuid
-
-
-# Load environment variables from .env file
-load_dotenv()
 
 # Knowledge source class
 class RealEstateKnowledgeSource(BaseKnowledgeSource):
@@ -73,58 +67,73 @@ class RealEstateKnowledgeSource(BaseKnowledgeSource):
         # Save documents (chunks) and metadata
         self.save_documents(metadata=chunks_metadata)
 
-# Create knowledge source
-real_estate_knowledge = RealEstateKnowledgeSource(
-    api_endpoint="https://mocki.io/v1/504c8820-2957-495e-942d-b0bdec66b6d0",
-)
-
-# Create specialized agent
-real_estate_agent = Agent(
-    role="Real Estate Agent",
-    goal="Answer questions about real estate properties and trends accurately and comprehensively",
-    backstory="""You are a real estate agent with expertise in various property types, market trends, and neighborhood dynamics.
-    You excel at answering questions about properties and providing detailed, accurate information.""",
-    knowledge_sources=[real_estate_knowledge],
-    llm=LLM(model="gpt-4o-mini", temperature=0.0)
-)
-
 # Streamlit app
 st.title("🏠 Real Estate Knowledge Chatbot")
 st.markdown("Ask me anything about real estate properties and trends!")
 
-# Initialize session state for chat messages
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "assistant", "content": "How can I assist you with real estate today?"}]
+# Step 1: Ask for the OpenAI API key
+if "api_key" not in st.session_state:
+    st.session_state["api_key"] = None
 
-# Display chat messages from the session state
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).write(msg["content"])
+api_key = st.text_input("Enter your OpenAI API key:", type="password")
 
-# Handle user input
-if user_input := st.chat_input("Type your question here..."):
-    st.session_state.messages.append({"role": "user", "content": user_input})
-    st.chat_message("user").write(user_input)
+if st.button("Submit API Key"):
+    if api_key:
+        st.session_state["api_key"] = api_key
+        st.success("API key saved! You can now use the chatbot.")
+    else:
+        st.error("Please enter a valid API key.")
 
-    # Create a task for the user input
-    task = Task(
-        description=f"Answer this question about real estate: {user_input}",
-        expected_output="A detailed answer based on the recent real estate data",
-        agent=real_estate_agent,
+# Proceed only if the API key is set
+if st.session_state.get("api_key"):
+    # Create knowledge source
+    real_estate_knowledge = RealEstateKnowledgeSource(
+        api_endpoint="https://mocki.io/v1/504c8820-2957-495e-942d-b0bdec66b6d0",
     )
-    
-    # Create and run the crew
-    crew = Crew(
-        agents=[real_estate_agent],
-        tasks=[task],
-        process=Process.sequential
+
+    # Create specialized agent
+    real_estate_agent = Agent(
+        role="Real Estate Agent",
+        goal="Answer questions about real estate properties and trends accurately and comprehensively",
+        backstory="""You are a real estate agent with expertise in various property types, market trends, and neighborhood dynamics.
+        You excel at answering questions about properties and providing detailed, accurate information.""",
+        knowledge_sources=[real_estate_knowledge],
+        llm=LLM(model="gpt-4o-mini",api_key=st.session_state["api_key"])  # Use dynamic API key
     )
-    
-    # Fetch the result
-    try:
-        result = crew.kickoff(inputs={"user_question": user_input})
-        st.session_state.messages.append({"role": "assistant", "content": result})
-        st.chat_message("assistant").write(result)
-    except Exception as e:
-        error_message = f"An error occurred: {str(e)}"
-        st.session_state.messages.append({"role": "assistant", "content": error_message})
-        st.chat_message("assistant").write(error_message)
+
+    # Initialize session state for chat messages
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = [{"role": "assistant", "content": "How can I assist you with real estate today?"}]
+
+    # Display chat messages from the session state
+    for msg in st.session_state.messages:
+        st.chat_message(msg["role"]).write(msg["content"])
+
+    # Handle user input
+    if user_input := st.chat_input("Type your question here..."):
+        st.session_state.messages.append({"role": "user", "content": user_input})
+        st.chat_message("user").write(user_input)
+
+        # Create a task for the user input
+        task = Task(
+            description=f"Answer this question about real estate: {user_input}",
+            expected_output="A detailed answer based on the recent real estate data",
+            agent=real_estate_agent,
+        )
+        
+        # Create and run the crew
+        crew = Crew(
+            agents=[real_estate_agent],
+            tasks=[task],
+            process=Process.sequential
+        )
+        
+        # Fetch the result
+        try:
+            result = crew.kickoff(inputs={"user_question": user_input})
+            st.session_state.messages.append({"role": "assistant", "content": result})
+            st.chat_message("assistant").write(result)
+        except Exception as e:
+            error_message = f"An error occurred: {str(e)}"
+            st.session_state.messages.append({"role": "assistant", "content": error_message})
+            st.chat_message("assistant").write(error_message)
