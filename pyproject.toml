@@ -11,7 +11,8 @@ dependencies = [
     "exa_py>=1.7.0",
     "streamlit>=1.41.1",
     "google.generativeai",
-]
+    "pysqlite3-binary"
+   ]
 
 [project.scripts]
 crewai_sample = "crewai_sample.main:run"
